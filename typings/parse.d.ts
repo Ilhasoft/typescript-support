@@ -853,7 +853,7 @@ declare namespace Parse {
 
         expiration_interval?: number;
 
-        where?: Query;
+        where?: Query<Parse.Installation>;
 
         data?: any;
 
@@ -925,7 +925,7 @@ declare namespace Parse {
      *   }
      * });</pre></p>
      */
-    class Query extends BaseObject {
+    class Query<T> extends BaseObject {
 
         objectClass: any;
 
@@ -933,45 +933,45 @@ declare namespace Parse {
 
         constructor(objectClass: any);
 
-        static or(...var_args: Query[]): Query;
+        static or<T>(...var_args: Query<T>[]): Query<T>;
 
-        addAscending(key: string | string[]): Query;
-        addDescending(key: string | string[]): Query;
-        ascending(key: string | string[]): Query;
-        containedIn(key: string, values: any[]): Query;
-        contains(key: string, substring: string): Query;
-        containsAll(key: string, values: any[]): Query;
+        addAscending(key: string | string[]): Query<T>;
+        addDescending(key: string | string[]): Query<T>;
+        ascending(key: string | string[]): Query<T>;
+        containedIn(key: string, values: any[]): Query<T>;
+        contains(key: string, substring: string): Query<T>;
+        containsAll(key: string, values: any[]): Query<T>;
         count<T>(options?: ScopeOptions): Promise<T>;
-        descending(key: string | string[]): Query;
-        doesNotExist(key: string): Query;
-        doesNotMatchKeyInQuery(key: string, queryKey: string, query: Query): Query;
-        doesNotMatchQuery(key: string, query: Query): Query;
+        descending(key: string | string[]): Query<T>;
+        doesNotExist(key: string): Query<T>;
+        doesNotMatchKeyInQuery(key: string, queryKey: string, query: Query<Object>): Query<T>;
+        doesNotMatchQuery(key: string, query: Query<Object>): Query<T>;
         each<T>(callback: Function, options?: ScopeOptions): Promise<T>;
-        endsWith(key: string, suffix: string): Query;
-        equalTo(key: string, value: any): Query;
-        exists(key: string): Query;
+        endsWith(key: string, suffix: string): Query<T>;
+        equalTo(key: string, value: any): Query<T>;
+        exists(key: string): Query<T>;
         find<T extends Object>(options?: ScopeOptions): Promise<T[]>;
         first<T>(options?: ScopeOptions): Promise<T>;
         get(objectId: string, options?: ScopeOptions): Promise<any>;
-        greaterThan(key: string, value: any): Query;
-        greaterThanOrEqualTo(key: string, value: any): Query;
-        include(key: string | string[]): Query;
-        lessThan(key: string, value: any): Query;
-        lessThanOrEqualTo(key: string, value: any): Query;
-        limit(n: number): Query;
-        matches(key: string, regex: RegExp, modifiers: any): Query;
-        matchesKeyInQuery(key: string, queryKey: string, query: Query): Query;
-        matchesQuery(key: string, query: Query): Query;
-        near(key: string, point: GeoPoint): Query;
-        notContainedIn(key: string, values: any[]): Query;
-        notEqualTo(key: string, value: any): Query;
-        select(...keys: string[]): Query;
-        skip(n: number): Query;
-        startsWith(key: string, prefix: string): Query;
-        withinGeoBox(key: string, southwest: GeoPoint, northeast: GeoPoint): Query;
-        withinKilometers(key: string, point: GeoPoint, maxDistance: number): Query;
-        withinMiles(key: string, point: GeoPoint, maxDistance: number): Query;
-        withinRadians(key: string, point: GeoPoint, maxDistance: number): Query;
+        greaterThan(key: string, value: any): Query<T>;
+        greaterThanOrEqualTo(key: string, value: any): Query<T>;
+        include(key: string | string[]): Query<T>;
+        lessThan(key: string, value: any): Query<T>;
+        lessThanOrEqualTo(key: string, value: any): Query<T>;
+        limit(n: number): Query<T>;
+        matches(key: string, regex: RegExp, modifiers: any): Query<T>;
+        matchesKeyInQuery(key: string, queryKey: string, query: Query<Object>): Query<T>;
+        matchesQuery(key: string, query: Query<Object>): Query<T>;
+        near(key: string, point: GeoPoint): Query<T>;
+        notContainedIn(key: string, values: any[]): Query<T>;
+        notEqualTo(key: string, value: any): Query<T>;
+        select(...keys: string[]): Query<T>;
+        skip(n: number): Query<T>;
+        startsWith(key: string, prefix: string): Query<T>;
+        withinGeoBox(key: string, southwest: GeoPoint, northeast: GeoPoint): Query<T>;
+        withinKilometers(key: string, point: GeoPoint, maxDistance: number): Query<T>;
+        withinMiles(key: string, point: GeoPoint, maxDistance: number): Query<T>;
+        withinRadians(key: string, point: GeoPoint, maxDistance: number): Query<T>;
     }
 
     /**
@@ -996,7 +996,7 @@ declare namespace Parse {
         /**
          *  Returns a Parse.Query that is limited to objects in this relation.
          */
-        query(): Query;
+        query(): Query<T>;
 
         /**
          * Removes a Parse.Object or an array of Parse.Objects from this relation.
