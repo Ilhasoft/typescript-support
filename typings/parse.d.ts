@@ -410,7 +410,7 @@ declare namespace Parse {
 
         function job(name: string, func: (request: JobRequest, status: JobStatus) => void): HttpResponse;
 
-        function run<T>(name: string, data?: { [param: string]: string|number|boolean|Date }): Promise<T>;
+        function run<T>(name: string, data?: { [param: string]: string | number | boolean | Date }): Promise<T>;
 
         function useMasterKey(): void;
 
@@ -600,6 +600,8 @@ declare namespace Parse {
 
     }
 
+    class Installation extends Object { }
+
     /**
      * Creates a new model with defined attributes. A client id (cid) is
      * automatically generated and assigned for you.
@@ -691,7 +693,7 @@ declare namespace Parse {
 
         fetch<T extends Object>(options?: ScopeOptions): Promise<T>;
 
-        get(attr: string): string|number|boolean|Date|Object|User;
+        get(attr: string): string | number | boolean | Date | Object | User;
 
         getACL(): ACL;
 
@@ -707,13 +709,13 @@ declare namespace Parse {
 
         relation<T extends Object>(attr: string): Relation<T>;
 
-        remove(attr: string, item: string|number|boolean|Object|Date): void;
+        remove(attr: string, item: string | number | boolean | Object | Date): void;
 
-        save<T extends Object>(attrs?: { [key: string]: string|number|boolean|Object|Date }, options?: ScopeOptions): Promise<T>;
+        save<T extends Object>(attrs?: { [key: string]: string | number | boolean | Object | Date }, options?: ScopeOptions): Promise<T>;
 
-        save<T extends Object>(key: string, value: string|number|boolean|Object|Date, options?: ScopeOptions): Promise<T>;
+        save<T extends Object>(key: string, value: string | number | boolean | Object | Date, options?: ScopeOptions): Promise<T>;
 
-        set(key: string, value: string|number|boolean|Object|Date, options?: ErrorOption): boolean;
+        set(key: string, value: string | number | boolean | Object | Date, options?: ErrorOption): boolean;
 
         setACL(acl: ACL, options?: SuccessFailureOptions): boolean;
 
@@ -743,7 +745,7 @@ declare namespace Parse {
 
             objects(): any[]
 
-         }
+        }
 
         interface Add extends BaseOperation { }
 
@@ -835,37 +837,37 @@ declare namespace Parse {
      * @name Parse.Push
      * @namespace
      */
-    namespace Push {
+    class Push {
 
-        function send<T>(data: PushData, options?: SendOptions): Promise<T>;
-
-        interface PushData {
-
-            channels?: string[];
-
-            push_time?: Date;
-
-            expiration_time?: Date;
-
-            expiration_interval?: number;
-
-            where?: Query;
-
-            data?: any;
-
-            alert?: string;
-
-            badge?: string;
-
-            sound?: string;
-
-            title?: string;
-
-        }
-
-        interface SendOptions extends UseMasterKeyOption, SuccessFailureOptions { }
+        send<T>(data: PushData, options?: SendOptions): Promise<T>;
 
     }
+
+    interface PushData {
+
+        channels?: string[];
+
+        push_time?: Date;
+
+        expiration_time?: Date;
+
+        expiration_interval?: number;
+
+        where?: Query;
+
+        data?: any;
+
+        alert?: string;
+
+        badge?: string;
+
+        sound?: string;
+
+        title?: string;
+
+    }
+
+    interface SendOptions extends UseMasterKeyOption, SuccessFailureOptions { }
 
     /**
      * Creates a new parse Parse.Query for the given Parse.Object subclass.
@@ -933,14 +935,14 @@ declare namespace Parse {
 
         static or(...var_args: Query[]): Query;
 
-        addAscending(key: string|string[]): Query;
-        addDescending(key: string|string[]): Query;
-        ascending(key: string|string[]): Query;
+        addAscending(key: string | string[]): Query;
+        addDescending(key: string | string[]): Query;
+        ascending(key: string | string[]): Query;
         containedIn(key: string, values: any[]): Query;
         contains(key: string, substring: string): Query;
         containsAll(key: string, values: any[]): Query;
         count<T>(options?: ScopeOptions): Promise<T>;
-        descending(key: string|string[]): Query;
+        descending(key: string | string[]): Query;
         doesNotExist(key: string): Query;
         doesNotMatchKeyInQuery(key: string, queryKey: string, query: Query): Query;
         doesNotMatchQuery(key: string, query: Query): Query;
@@ -953,7 +955,7 @@ declare namespace Parse {
         get(objectId: string, options?: ScopeOptions): Promise<any>;
         greaterThan(key: string, value: any): Query;
         greaterThanOrEqualTo(key: string, value: any): Query;
-        include(key: string|string[]): Query;
+        include(key: string | string[]): Query;
         lessThan(key: string, value: any): Query;
         lessThanOrEqualTo(key: string, value: any): Query;
         limit(n: number): Query;
@@ -1063,7 +1065,7 @@ declare namespace Parse {
 
         static enableRevocableSession(): void;
 
-        static enableUnsafeCurrentUser(): void; 
+        static enableUnsafeCurrentUser(): void;
 
         static extend(protoProps?: any, classProps?: any): any;
 
@@ -1071,9 +1073,9 @@ declare namespace Parse {
 
         static logOut<T>(): Promise<T>;
 
-        static signUp<T>(username: string, password: string, attrs?: { [headerName: string]: string|number|boolean|Object|Date }): Promise<T>;
+        static signUp<T>(username: string, password: string, attrs?: { [headerName: string]: string | number | boolean | Object | Date }): Promise<T>;
 
-        static signUp<T>(attrs: { [headerName: string]: string|number|boolean|Object|Date }, options?: SuccessFailureOptions): Promise<T>;
+        static signUp<T>(attrs: { [headerName: string]: string | number | boolean | Object | Date }, options?: SuccessFailureOptions): Promise<T>;
 
         static requestPasswordReset<T>(email: string, options?: SuccessFailureOptions): Promise<T>;
 
