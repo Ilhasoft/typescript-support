@@ -257,15 +257,15 @@ declare namespace Parse {
 
         }
 
-        interface AfterDeleteRequest extends BaseRequest { }
+        interface AfterDeleteRequest extends TriggerRequest { }
 
-        interface AfterSaveRequest extends BaseRequest { }
+        interface AfterSaveRequest extends TriggerRequest { }
 
-        interface BeforeDeleteRequest extends BaseRequest { }
+        interface BeforeDeleteRequest extends TriggerRequest { }
 
         interface BeforeDeleteResponse extends TriggerResponse { }
 
-        interface BeforeSaveRequest extends BaseRequest { }
+        interface BeforeSaveRequest extends TriggerRequest { }
 
         interface BeforeSaveResponse extends TriggerResponse {
 
@@ -308,7 +308,7 @@ declare namespace Parse {
             /**
              * The params passed to the cloud function
              */
-            params?: { [headerName: string]: string | number | boolean };
+            params?: { [headerName: string]: any };
 
         }
 
@@ -396,13 +396,13 @@ declare namespace Parse {
 
         }
 
-        function afterDelete(arg1: string | User, func: (request: AfterDeleteRequest) => void): void;
+        function afterDelete(arg1: string | typeof User, func: (request: AfterDeleteRequest) => void): void;
 
-        function afterSave(arg1: string | User, func: (request: AfterSaveRequest) => void): void;
+        function afterSave(arg1: string | typeof User, func: (request: AfterSaveRequest) => void): void;
 
-        function beforeDelete(arg1: string | User, func: (request: BeforeDeleteRequest, response: BeforeDeleteResponse) => void): void;
+        function beforeDelete(arg1: string | typeof User, func: (request: BeforeDeleteRequest, response: BeforeDeleteResponse) => void): void;
 
-        function beforeSave(arg1: string | User, func: (request: BeforeSaveRequest, response: BeforeSaveResponse) => void): void;
+        function beforeSave(arg1: string | typeof User, func: (request: BeforeSaveRequest, response: BeforeSaveResponse) => void): void;
 
         function define(name: string, func: (request: FunctionRequest, response: FunctionResponse) => void): void;
 
