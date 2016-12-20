@@ -837,37 +837,37 @@ declare namespace Parse {
      * @name Parse.Push
      * @namespace
      */
-    class Push {
+    namespace Push {
 
-        send<T>(data: PushData, options?: SendOptions): Promise<T>;
+        function send<T>(data: PushData, options?: SendOptions): Promise<T>;
+
+        interface PushData {
+
+            channels?: string[];
+
+            push_time?: Date;
+
+            expiration_time?: Date;
+
+            expiration_interval?: number;
+
+            where?: Query<Parse.Installation>;
+
+            data?: any;
+
+            alert?: string;
+
+            badge?: string;
+
+            sound?: string;
+
+            title?: string;
+
+        }
+
+        interface SendOptions extends UseMasterKeyOption, SuccessFailureOptions { }
 
     }
-
-    interface PushData {
-
-        channels?: string[];
-
-        push_time?: Date;
-
-        expiration_time?: Date;
-
-        expiration_interval?: number;
-
-        where?: Query<Parse.Installation>;
-
-        data?: any;
-
-        alert?: string;
-
-        badge?: string;
-
-        sound?: string;
-
-        title?: string;
-
-    }
-
-    interface SendOptions extends UseMasterKeyOption, SuccessFailureOptions { }
 
     /**
      * Creates a new parse Parse.Query for the given Parse.Object subclass.
