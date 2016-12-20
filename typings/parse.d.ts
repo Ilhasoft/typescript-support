@@ -396,13 +396,13 @@ declare namespace Parse {
 
         }
 
-        function afterDelete(arg1: string | typeof User, func: (request: AfterDeleteRequest) => void): void;
+        function afterDelete(arg1: string | typeof Object, func: (request: AfterDeleteRequest) => void): void;
 
-        function afterSave(arg1: string | typeof User, func: (request: AfterSaveRequest) => void): void;
+        function afterSave(arg1: string | typeof Object, func: (request: AfterSaveRequest) => void): void;
 
-        function beforeDelete(arg1: string | typeof User, func: (request: BeforeDeleteRequest, response: BeforeDeleteResponse) => void): void;
+        function beforeDelete(arg1: string | typeof Object, func: (request: BeforeDeleteRequest, response: BeforeDeleteResponse) => void): void;
 
-        function beforeSave(arg1: string | typeof User, func: (request: BeforeSaveRequest, response: BeforeSaveResponse) => void): void;
+        function beforeSave(arg1: string | typeof Object, func: (request: BeforeSaveRequest, response: BeforeSaveResponse) => void): void;
 
         function define(name: string, func: (request: FunctionRequest, response: FunctionResponse) => void): void;
 
@@ -410,7 +410,7 @@ declare namespace Parse {
 
         function job(name: string, func: (request: JobRequest, status: JobStatus) => void): HttpResponse;
 
-        function run<T>(name: string, data?: { [param: string]: string | number | boolean | Date }): Promise<T>;
+        function run<T>(name: string, data?: { [param: string]: any }): Promise<T>;
 
         function useMasterKey(): void;
 
