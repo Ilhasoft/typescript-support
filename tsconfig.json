@@ -1,0 +1,18 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "pretty": false,
+        "newLine": "LF",
+        "listFiles": true,
+        "listEmittedFiles": true,
+        "outFile": "tests.js"
+    },
+    "include": [
+        "extensions/*.ts"
+    ],
+    "files": [
+        "tests.ts"
+    ]
+}
