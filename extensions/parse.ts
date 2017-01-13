@@ -15,6 +15,35 @@ declare namespace Parse {
 
 }
 
+function sendPushToOthersExceptId(userId: string, pushData: any): Parse.Promise<any> {
+    const user = new Parse.User();
+    user.id = userId;
+    return sendPushToOthersExcept(user, pushData);
+}
+
+function sendPushToOthersExcept(user: Parse.User, pushData: any): Parse.Promise<any> {
+    return sendPushWhere(new Parse.Query(Parse.Installation).notEqualTo("user", user), pushData);
+}
+
+function sendPushToUserId(userId: string, pushData: any): Parse.Promise<any> {
+    const user = new Parse.User();
+    user.id = userId;
+    return sendPushToUser(user, pushData);
+}
+
+function sendPushToUser(user: Parse.User, pushData: any): Parse.Promise<any> {
+    return sendPushWhere(new Parse.Query(Parse.Installation).equalTo("user", user), pushData);
+}
+
+function sendPushWhere(pushQuery: Parse.Query<Parse.Installation>, pushData: any): Parse.Promise<any> {
+    return Parse.Push.send({
+        where: pushQuery,
+        data: pushData
+    }, {
+        useMasterKey: true
+    });
+}
+
 // Reference: http://stackoverflow.com/questions/18835190/extend-basic-types-in-typescript-error-this-is-not-defined
 Parse.Object.prototype.isNew2 = function (): boolean {
     const obj: Parse.Object = this;
