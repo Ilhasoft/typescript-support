@@ -715,7 +715,7 @@ declare namespace Parse {
 
         save<T extends Object>(key: string, value: string | number | boolean | Object | Date, options?: ScopeOptions): Promise<T>;
 
-        set(key: string, value: string | number | boolean | Object | Date, options?: ErrorOption): boolean;
+        set(key: string, value: string | number | boolean | Object | Array<any> | Date, options?: ErrorOption): boolean;
 
         setACL(acl: ACL, options?: SuccessFailureOptions): boolean;
 
