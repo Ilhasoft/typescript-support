@@ -239,9 +239,19 @@ declare namespace Parse {
 
         }
 
+        interface LoggerAdapter {
+
+            info(message?: any, ...optionalParams: any[]): void;
+
+            error(message?: any, ...optionalParams: any[]): void;
+
+        }
+
         interface TriggerRequest extends BaseRequest {
 
             object: Object;
+
+            log: LoggerAdapter;
 
         }
 
@@ -322,6 +332,17 @@ declare namespace Parse {
 
         }
 
+        interface LogResponse extends TriggerResponse {
+
+            /**
+             * If log is called, will return a successful response.
+             * @param {any} value The optional argument to the caller.
+             */
+            info(value?: any): void;
+            error(value?: any): void;
+
+        }
+
         interface HTTPOptions extends FunctionResponse {
 
             /**
@@ -398,7 +419,7 @@ declare namespace Parse {
 
         function afterDelete(arg1: string | typeof Object, func: (request: AfterDeleteRequest) => void): void;
 
-        function afterSave(arg1: string | typeof Object, func: (request: AfterSaveRequest) => void): void;
+        function afterSave(arg1: string | typeof Object, func: (request: AfterSaveRequest, response: FunctionResponse) => void): void;
 
         function beforeDelete(arg1: string | typeof Object, func: (request: BeforeDeleteRequest, response: BeforeDeleteResponse) => void): void;
 
