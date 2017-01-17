@@ -78,8 +78,6 @@ function getSubscriptionIOSData(subscription: Parse.Object, iTunesSharedSecret: 
 * Validate android subscription
 */
 function validateAndroidSubscriptions(clientId: string, clientSecret: string, bundleId: string, validatorField: string) {
-    console.log('Validate Android Subscriptions!');
-    
     var accessToken: string;
     
     refreshAccessToken(clientId, clientSecret).then((httpResponse) => {
@@ -95,10 +93,10 @@ function validateAndroidSubscriptions(clientId: string, clientSecret: string, bu
                 let subscriptionValid = httpResponse.data.error == undefined && httpResponse.data.cancelReason == undefined;
                 let currentSubscription = httpResponse.subscription as Parse.Object;
                 currentSubscription.set(validatorField, subscriptionValid);
+                currentSubscription.set('lastUpdate', new Date());
                 currentSubscription.save();
             });
         }
-        console.log('Android check subscriptions successful');
         return true;
     });
 }
@@ -107,8 +105,6 @@ function validateAndroidSubscriptions(clientId: string, clientSecret: string, bu
 * Validate iOS subscription
 */
 function validateIOSSubscriptions(iTunesSharedSecret: string, validatorField: string, environment: string) {
-    console.log('Validate iOS Subscriptions!');
-    
     let subscriptionsQuery = new Parse.Query(SubscriptionObject);
     subscriptionsQuery.exists('iOSReceipt');
     subscriptionsQuery.find().then((subscriptions: Parse.Object[]) => {
@@ -121,10 +117,10 @@ function validateIOSSubscriptions(iTunesSharedSecret: string, validatorField: st
                 if (subscriptionValid){
                     currentSubscription.set('iOSReceipt', httpResponse.data.latest_receipt);
                 }
+                currentSubscription.set('lastUpdate', new Date());
                 currentSubscription.save();
             });
         }
-        console.log('iOS check subscriptions successful!');
         return true;
     });
 }
