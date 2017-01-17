@@ -237,6 +237,8 @@ declare namespace Parse {
              */
             user?: User;
 
+            log: LoggerAdapter;
+
         }
 
         interface LoggerAdapter {
@@ -250,8 +252,6 @@ declare namespace Parse {
         interface TriggerRequest extends BaseRequest {
 
             object: Object;
-
-            log: LoggerAdapter;
 
         }
 
@@ -329,17 +329,6 @@ declare namespace Parse {
              * @param {any} value The optional argument to the caller.
              */
             success(value?: any): void;
-
-        }
-
-        interface LogResponse extends TriggerResponse {
-
-            /**
-             * If log is called, will return a successful response.
-             * @param {any} value The optional argument to the caller.
-             */
-            info(value?: any): void;
-            error(value?: any): void;
 
         }
 
