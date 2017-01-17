@@ -340,7 +340,7 @@ declare namespace Parse {
              * You can also set this to a Buffer object to send raw bytes.
              * If you use a Buffer, you should also set the Content-Type header explicitly to describe what these bytes represent.
              */
-            body?: string | Object;
+            body?: any;
 
             /**
              * Defaults to 'false'.
