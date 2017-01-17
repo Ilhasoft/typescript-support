@@ -2,6 +2,8 @@
 
 *.js
 
+node_modules/*
+
 ### Linux ###
 *~
 
