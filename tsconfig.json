@@ -3,14 +3,19 @@
     "compilerOptions": {
         "noEmitOnError": true,
         "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
         "pretty": false,
         "newLine": "LF",
         "listFiles": true,
         "listEmittedFiles": true,
-        "outFile": "tests.js"
+        "outFile": "tests.js",
+        "module": "commonjs",
+        "types" : ["cron"]
     },
     "include": [
-        "extensions/*.ts"
+        "extensions/*.ts",
+        "extensions/payment/*.ts"
     ],
     "files": [
         "tests.ts"
