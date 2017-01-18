@@ -408,7 +408,7 @@ declare namespace Parse {
 
         function afterDelete(arg1: string | typeof Object, func: (request: AfterDeleteRequest) => void): void;
 
-        function afterSave(arg1: string | typeof Object, func: (request: AfterSaveRequest, response: FunctionResponse) => void): void;
+        function afterSave(arg1: string | typeof Object, func: (request: AfterSaveRequest) => void): void;
 
         function beforeDelete(arg1: string | typeof Object, func: (request: BeforeDeleteRequest, response: BeforeDeleteResponse) => void): void;
 
