@@ -132,6 +132,7 @@ function startAndroidSubscriptionsValidation(cronTime: string, clientId: string,
     var androidJob = new cron.CronJob({
         cronTime: cronTime,
         onTick: function() {
+            console.log('Started android validation');
             validateAndroidSubscriptions(clientId, clientSecret, bundleId, validatorField);
         },
         start: false,
@@ -147,6 +148,7 @@ function startIOSSubscriptionsValidation(cronTime: string, iTunesSharedSecret: s
     var iosJob = new cron.CronJob({
         cronTime: cronTime,
         onTick: function() {
+            console.log('Started iOS validation');
             validateIOSSubscriptions(iTunesSharedSecret, validatorField, environment);
         },
         start: false,
