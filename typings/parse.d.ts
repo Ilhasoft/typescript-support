@@ -392,7 +392,9 @@ declare namespace Parse {
             /**
              * The params passed to the background job
              */
-            params?: { [headerName: string]: string | number | boolean };
+            params?: { [headerName: string]: string | number | boolean | Parse.Object[] };
+
+            log: LoggerAdapter;
 
         }
 
@@ -703,7 +705,7 @@ declare namespace Parse {
 
         fetch<T extends Object>(options?: ScopeOptions): Promise<T>;
 
-        get(attr: string): string | number | boolean | Date | Object | User;
+        get(attr: string): string | number | boolean | Date | Object | User | Object[];
 
         getACL(): ACL;
 
