@@ -35,6 +35,16 @@ function sendPushToUser(user: Parse.User, pushData: any): Parse.Promise<any> {
     return sendPushWhere(new Parse.Query(Parse.Installation).equalTo("user", user), pushData);
 }
 
+/**
+ Send push to users removing the sending user
+*/
+function sendPushToUsers(users: [Parse.User], me: Parse.User, pushData: any) {
+    var query = new Parse.Query(Parse.Installation);
+    query.containedIn("user", users);
+    query.notEqualTo("user", me);
+    return sendPushWhere(query, pushData);
+}
+
 function sendPushWhere(pushQuery: Parse.Query<Parse.Installation>, pushData: any): Parse.Promise<any> {
     return Parse.Push.send({
         where: pushQuery,
