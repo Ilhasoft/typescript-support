@@ -24,23 +24,5 @@ function handleMessageAfterSave(request: Parse.Cloud.AfterSaveRequest, chatKey: 
         let chat = message.get("chat") as Parse.Object
         chat.set("lastMessage", message)
         chat.save();
-
-        var author = message.get("user") as Parse.User;
-        author.fetch().then(function(result) {
-            return chat.fetch();
-        }).then((result: Parse.Object) => {
-            var title = result.get("title");
-            var notificationTitle = title != undefined ? title : author.get("name");
-            var users = result.get("users") as [Parse.User];
-            var text = request.object.get("text");
-
-            sendPushToUsers(users, author, {
-                title: notificationTitle,
-                alert: text,
-                type: "Chat",
-                //badge: "Increment",
-                objectId: chat.id,
-            });
-		});
     }
 }
