@@ -46,6 +46,7 @@ function sendPushToUsers(users: [Parse.User], me: Parse.User, pushData: any) {
 }
 
 function sendPushWhere(pushQuery: Parse.Query<Parse.Installation>, pushData: any): Parse.Promise<any> {
+    pushQuery.notEqualTo("enabled", false);
     return Parse.Push.send({
         where: pushQuery,
         data: pushData
