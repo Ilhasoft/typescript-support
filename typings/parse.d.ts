@@ -705,7 +705,7 @@ declare namespace Parse {
 
         fetch<T extends Object>(options?: ScopeOptions): Promise<T>;
 
-        get(attr: string): string | number | boolean | Date | Object | User | Object[];
+        get(attr: string): string | number | boolean | File | Date | Object | User | Object[];
 
         getACL(): ACL;
 
