@@ -322,15 +322,9 @@ declare namespace Parse {
 
         }
 
-        interface BeforeFindRequest extends TriggerResponse {
+        interface BeforeFindRequest extends TriggerRequest {
 
             query: Query<any>;
-
-            user: User;
-
-            installationId: String;
-
-            isMaster: Boolean;
 
         }
 
