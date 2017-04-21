@@ -322,6 +322,18 @@ declare namespace Parse {
 
         }
 
+        interface BeforeFindRequest extends TriggerResponse {
+
+            query: Query<any>;
+
+            user: User;
+
+            installationId: String;
+
+            isMaster: Boolean;
+
+        }
+
         interface FunctionResponse extends TriggerResponse {
 
             /**
@@ -407,6 +419,8 @@ declare namespace Parse {
             success(response?: any): void;
 
         }
+
+        function beforeFind(arg1: string | typeof Object, func: (request: BeforeFindRequest) => void): void;
 
         function afterDelete(arg1: string | typeof Object, func: (request: AfterDeleteRequest) => void): void;
 
