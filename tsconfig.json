@@ -11,7 +11,8 @@
         "listEmittedFiles": true,
         "outFile": "tests.js",
         "module": "commonjs",
-        "types" : ["cron"]
+        "types" : ["cron"],
+        "lib": ["es6"]
     },
     "include": [
         "extensions/*.ts",
