@@ -713,7 +713,7 @@ declare namespace Parse {
 
         fetch<T extends Object>(options?: ScopeOptions): Promise<T>;
 
-        get(attr: string): string | number | boolean | File | Date | Object | User | Object[];
+        get(attr: string): string | number | boolean | Object | Array<any> | Date | File | User | Object[];
 
         getACL(): ACL;
 
@@ -733,9 +733,9 @@ declare namespace Parse {
 
         save<T extends Object>(attrs?: { [key: string]: string | number | boolean | Object | Date }, options?: ScopeOptions): Promise<T>;
 
-        save<T extends Object>(key: string, value: string | number | boolean | Object | Date, options?: ScopeOptions): Promise<T>;
+        save<T extends Object>(key: string, value: string | number | boolean | Object | Date | File | User | Object[], options?: ScopeOptions): Promise<T>;
 
-        set(key: string, value: string | number | boolean | Object | Array<any> | Date, options?: ErrorOption): boolean;
+        set(key: string, value: string | number | boolean | Object | Array<any> | Date | File | User | Object[], options?: ErrorOption): boolean;
 
         setACL(acl: ACL, options?: SuccessFailureOptions): boolean;
 
