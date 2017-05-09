@@ -160,11 +160,11 @@ function createCharge(email: string, items: Array<{}>, tokenId: any = null, meth
     items: items,
   };
 
-  if (tokenId === null || tokenId === undefined || tokenId === '') {
+  if (!tokenId || tokenId === '') {
     data.method = method;
   }
 
-  if (tokenId !== null && tokenId !== undefined && tokenId !== '') {
+  if (tokenId && tokenId !== '') {
     data.token = tokenId;
   }
 
@@ -181,7 +181,7 @@ function createNewPayment(data: any) {
   return new Promise((resolve: any, reject: any) => {
     let dataReturn = {};
     if (data.directPayment === true) {
-      if (data.creditCard !== undefined || data.creditCard !== null) {
+      if (data.creditCard) {
         return createToken(data.creditCard).then((token: any) => {
           return token;
         }).then((token) => {
@@ -195,7 +195,7 @@ function createNewPayment(data: any) {
         reject('CREDIT CARD REQUIRED');
       }
     } else {
-      if (data.customer.id !== undefined && data.customer.id !== null) {
+      if (data.customer.id) {
         return getCustomer(data.customer.id).then((customer: any) => {
           return customer;
         }).then((customer) => {
