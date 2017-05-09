@@ -1,3 +1,5 @@
+/// <reference path="../../typings/parse.d.ts" />
+
 declare const require: any;
 const request = require('request');
 
@@ -67,18 +69,18 @@ function getCustomerPaymentMethods(customerId: String) {
  * Create credit card token
  * @param {Object} data: { number, CVV, firstName, lastName, month, year }
  */
-function createToken(data: any, method: String = 'credit_card', test: Boolean = true) {
+function createToken(data: {}, method: String = 'credit_card', test: Boolean = true) {
   return sendToRest({
     account_id: accountId,
     method: method,
     test: test,
     data: {
-      number: data.number,
-      verification_value: data.CVV,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      month: data.month,
-      year: data.year,
+      number: data["number"],
+      verification_value: data["CVV"],
+      first_name: data["firstName"],
+      last_name: data["lastName"],
+      month: data["month"],
+      year: data["year"],
     }
   }, 'payment_token');
 };
@@ -176,7 +178,6 @@ function createCharge(email: String, items: Array<{}>, tokenId: any = null, meth
  */
 function createNewPayment(data: any) {
   const iugu = initIugu(data.tokenId, data.accountId);
-
   return new Promise((resolve: any, reject: any) => {
     let dataReturn = {};
     if (data.directPayment === true) {
@@ -225,7 +226,7 @@ function createNewPayment(data: any) {
 
 function paymentWithNewCreditCard(customer: any, data: any) {
   return new Promise((resolve: any, reject: any) => {
-    if (data.creditCard !== null && data.creditCard !== undefined) {
+    if (data.creditCard) {
       const dataReturn: any = {};
       dataReturn.customer = customer;
       
@@ -240,7 +241,7 @@ function paymentWithNewCreditCard(customer: any, data: any) {
           }).then((cpm) => {
             return createInvoice(customer.email, customer.id, data.dueDate, data.items);
           }).then((invoice) => {
-            return createChargeCustomer(dataReturn.cpm.id, customer.id, invoice.id, '');
+            return createChargeCustomer(dataReturn.cpm["id"], customer["id"], invoice["id"], '');
           }).then((charge: any) => {
             dataReturn.charge = charge;
             resolve(dataReturn);
