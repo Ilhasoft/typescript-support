@@ -3,8 +3,8 @@
 declare const require: any;
 const request = require('request');
 
-let apiToken = '' as String;
-let accountId = '' as String;
+let apiToken = '' as string;
+let accountId = '' as string;
 let urlApi = 'https://api.iugu.com/v1/';
 
 /**
@@ -13,7 +13,7 @@ let urlApi = 'https://api.iugu.com/v1/';
  * @param {String} account
  * @returns {Object}
  */
-function initIugu(token: String, account: String) {
+function initIugu(token: string, account: string) {
   apiToken = token;
   accountId = account;
 }
@@ -23,7 +23,7 @@ function initIugu(token: String, account: String) {
  * @param {String} customerId
  * @returns {Object}
  */
-function getCustomer(customerId: String) {
+function getCustomer(customerId: string) {
   return getFromRest({
     api_token: apiToken,
     customer_id: customerId,
@@ -35,21 +35,21 @@ function getCustomer(customerId: String) {
  * @param {Object} data: { email, name, notes, cpfCnpj, zipCode, number, street, city, state, district, complement, customVariables }
  * @returns {Object}
  */
-function createCustomer(data: any) {
+function createCustomer(data: { [key: string]: any}) {
   return sendToRest({
     api_token: apiToken,
-    email: data.email,
-    name: data.name,
-    notes: data.notes,
-    cpf_cnpj: data.cpfCnpj,
-    zip_code: data.zipCode,
-    number: data.number,
-    street: data.street,
-    city: data.city,
-    state: data.state,
-    district: data.district,
-    complement: data.complement,
-    custom_variables: data.customVariables,
+    email: data["email"],
+    name: data["name"],
+    notes: data["notes"],
+    cpf_cnpj: data["cpfCnpj"],
+    zip_code: data["zipCode"],
+    number: data["number"],
+    street: data["street"],
+    city: data["city"],
+    state: data["state"],
+    district: data["district"],
+    complement: data["complement"],
+    custom_variables: data["customVariables"],
   }, 'customers');
 };
 
@@ -58,7 +58,7 @@ function createCustomer(data: any) {
  * @param {String} customerId
  * @returns {Object}
  */
-function getCustomerPaymentMethods(customerId: String) {
+function getCustomerPaymentMethods(customerId: string) {
   return getFromRest({
     api_token: apiToken,
     customer_id: customerId,
@@ -69,7 +69,7 @@ function getCustomerPaymentMethods(customerId: String) {
  * Create credit card token
  * @param {Object} data: { number, CVV, firstName, lastName, month, year }
  */
-function createToken(data: {}, method: String = 'credit_card', test: Boolean = true) {
+function createToken(data: { [key: string]: any}, method: string = 'credit_card', test: boolean = true) {
   return sendToRest({
     account_id: accountId,
     method: method,
@@ -92,7 +92,7 @@ function createToken(data: {}, method: String = 'credit_card', test: Boolean = t
  * @param {String} description
  * @param {Boolean} isDefault
  */
-function createPaymentMethod(customerId: String, tokenId: String, description: String = '', isDefault: Boolean = true) {
+function createPaymentMethod(customerId: string, tokenId: string, description: string = '', isDefault: boolean = true) {
   return sendToRest({
     api_token: apiToken,
     customer_id: customerId,
@@ -110,7 +110,7 @@ function createPaymentMethod(customerId: String, tokenId: String, description: S
  * @param {Array} items: { description, quantity, price_cents }
  * @returns {Object}
  */
-function createInvoice(email: String, customerId: String, dueDate: String, items: Array<{}>) {
+function createInvoice(email: string, customerId: string, dueDate: string, items: Array<{}>) {
   return sendToRest({
     api_token: apiToken,
     email: email,
@@ -127,18 +127,18 @@ function createInvoice(email: String, customerId: String, dueDate: String, items
  * @param {String} invoiceId
  * @returns {Object}
  */
-function createChargeCustomer(cpmId: String, customerId: String, invoiceId: String, tokenId: String) {
+function createChargeCustomer(cpmId: string, customerId: string, invoiceId: string, tokenId: string) {
   const data: any = {
     api_token: apiToken,
     customer_id: customerId,
     invoice_id: invoiceId,
   };
 
-  if (cpmId !== null) {
+  if (cpmId) {
     data.customer_payment_method_id = cpmId;
   }
 
-  if (tokenId !== null && tokenId !== '') {
+  if (tokenId && tokenId !== '') {
     data.token = tokenId;
   }
 
@@ -153,7 +153,7 @@ function createChargeCustomer(cpmId: String, customerId: String, invoiceId: Stri
  * @param {String} method
  * @returns {Object}
  */
-function createCharge(email: String, items: Array<{}>, tokenId: any = null, method: String = 'bank_slip') {
+function createCharge(email: string, items: Array<{}>, tokenId: any = null, method: string = 'bank_slip') {
   const data: any = {
     api_token: apiToken,
     email: email,
@@ -272,7 +272,7 @@ function paymentWithNewCreditCard(customer: any, data: any) {
 
 function paymentWithPaymentMethod(customer: any, data: any) {
   return new Promise((resolve: any, reject: any) => {
-    if (data.creditCard.id !== null && data.creditCard.id !== undefined) {
+    if (data.creditCard.id) {
       const dataReturn: any = {};
       dataReturn.customer = customer;
 
@@ -310,14 +310,14 @@ function refundInvoice(apiToken: String, invoiceId: String) {
  * @param {String} apiToken 
  * @param {String} invoiceId 
  */
-function cancelInvoice(apiToken: String, invoiceId: String) {
+function cancelInvoice(apiToken: string, invoiceId: string) {
   return putToRest({
     api_token: apiToken,
     id: invoiceId,
   }, `invoices/${invoiceId}/cancel`);
 }
 
-function sendToRest(data: Object, restPoint: String) {
+function sendToRest(data: Object, restPoint: string) {
   const options = {
     url: `${urlApi}${restPoint}`,
     contentType: 'application/json',
@@ -336,7 +336,7 @@ function sendToRest(data: Object, restPoint: String) {
   });
 }
 
-function putToRest(data: Object, restPoint: String) {
+function putToRest(data: Object, restPoint: string) {
   const options = {
     url: `${urlApi}${restPoint}`,
     contentType: 'application/json',
@@ -355,7 +355,7 @@ function putToRest(data: Object, restPoint: String) {
   });
 }
 
-function getFromRest(data: Object, restPoint: String) {
+function getFromRest(data: Object, restPoint: string) {
   const options = {
     url: `${urlApi}${restPoint}`,
     contentType: 'application/json',
