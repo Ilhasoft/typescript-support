@@ -31,14 +31,12 @@ Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, 
 
     let returnValue = null;
     createToken(data).then((value) => {
-        debugger;
         if (value["id"]) {
             returnValue = value;
             const customerId = user.get("externalCustomerId") as string;
             return createPaymentMethod(customerId, value["id"], data["description"], true);
         }
     }).then((value) => {
-        debugger;
         let creditCard: Parse.Object = new CreditCard();
         creditCard.set("cardExternalId", value["id"]);
         creditCard.set("cpf", data["cpf"]);
@@ -51,14 +49,11 @@ Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, 
         creditCard.set("user", user);
         creditCard.set("name", data["description"]);
         creditCard.save().then((object: Parse.Object) => {
-            debugger;
             response.success(object.toJSON());
         }, (reason) => {
-            debugger;
             response.error(reason);
         })
     }, (reason) => {
-        debugger;
         response.error(reason);
     });
 });
