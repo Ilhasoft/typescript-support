@@ -432,8 +432,6 @@ declare namespace Parse {
 
         function run<T>(name: string, data?: { [param: string]: any }): Promise<T>;
 
-        function useMasterKey(): void;
-
     }
 
     class Config {

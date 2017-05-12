@@ -103,6 +103,17 @@ function createPaymentMethod(customerId: string, tokenId: string, description: s
 };
 
 /**
+ * Delete an existing payment method from customer
+ * @param {string} customerId
+ * @param {string} paymentId
+ */
+function deletePaymentMethod(customerId: string, paymentMethodId: string) {
+    return deleteFromRest({
+      api_token: apiToken
+    }, `customers/${customerId}/payment_methods/${paymentMethodId}`);
+}
+
+/**
  * Create a new invoice
  * @param {Object} email
  * @param {String} customerId
@@ -368,6 +379,25 @@ function getFromRest(data: Object, restPoint: string) {
       if (err) {
         reject(err);
       } else if (body) {
+        resolve(body);
+      }
+    });
+  });
+}
+
+function deleteFromRest(data: Object, restPoint: string) {
+  const options = {
+    url: `${urlApi}${restPoint}`,
+    contentType: 'application/json',
+    json: true,
+    body: data,
+  };
+
+  return new Promise((resolve: any, reject: any) => {
+    request.del(options, (err: any, httpResponse: any, body: any) => {
+      if (err) {
+        reject(err);
+      } else {
         resolve(body);
       }
     });
