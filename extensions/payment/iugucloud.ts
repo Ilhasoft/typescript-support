@@ -2,41 +2,50 @@
 
 var CreditCard = Parse.Object.extend("CreditCard");
 
-Parse.Cloud.define("registerCustomer", (request: Parse.Cloud.FunctionRequest, response: Parse.Cloud.FunctionResponse) => {
+Parse.Cloud.define("registerCustomer", (request, response) => {
     const data = request.params;
+    const user = request.user;
+    if (!data || !user) {
+        response.error("request.params or request.user is undefined");
+        return;
+    }
+    let returnValue: any = null;
     createCustomer(data).then((value) => {
-        const user = request.user
         if (value["id"]) {
+            returnValue = value;
             user.set("externalCustomerId", value["id"]);
-            user.save(null, { useMasterKey: true }).then((object: Parse.Object) => {
-                response.success(value);
-            }, (reason) => {
-                response.error(reason);
-            });
+            return user.save(null, { useMasterKey: true })
         } else {
             response.error(JSON.stringify(value));
         }
+    }).then((object: Parse.Object) => {
+        response.success(returnValue);
     }, (reason) => {
         response.error(reason);
-    });
+    })
 });
 
 Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, response: Parse.Cloud.FunctionResponse) => {
     const data = request.params;
     const user = request.user;
-
-    if (!user.get("externalCustomerId")) {
-        return response.error("This user doesn't have an externalCustomerId. Create a Iugu customer first.");
+    if (!data || !user) {
+        response.error("request.params or request.user is undefined");
+        return
     }
-
+    if (!user.get("externalCustomerId")) {
+        response.error("This user doesn't have an externalCustomerId. Create a Iugu customer first.");
+        return
+    }
     let returnValue = null;
-    createToken(data).then((value) => {
+    createToken(data).then((value: any) => {
         if (value["id"]) {
             returnValue = value;
             const customerId = user.get("externalCustomerId") as string;
             return createPaymentMethod(customerId, value["id"], data["description"], true);
+        } else {
+            response.error(JSON.stringify(value));
         }
-    }).then((value) => {
+    }).then((value: any) => {
         let creditCard: Parse.Object = new CreditCard();
         creditCard.set("cardExternalId", value["id"]);
         creditCard.set("cpf", data["cpf"]);
@@ -48,11 +57,9 @@ Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, 
         creditCard.set("lastDigits", lastDigits);
         creditCard.set("user", user);
         creditCard.set("name", data["description"]);
-        creditCard.save().then((object: Parse.Object) => {
-            response.success(object.toJSON());
-        }, (reason) => {
-            response.error(reason);
-        })
+        return creditCard.save();
+    }).then((object: Parse.Object) => {
+        response.success(object.toJSON());
     }, (reason) => {
         response.error(reason);
     });
