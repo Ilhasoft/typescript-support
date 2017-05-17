@@ -57,6 +57,8 @@ Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, 
         creditCard.set("lastDigits", lastDigits);
         creditCard.set("user", user);
         creditCard.set("name", data["description"]);
+        const acl = new Parse.ACL(user);
+        creditCard.setACL(acl);
         return creditCard.save();
     }).then((object: Parse.Object) => {
         response.success(object.toJSON());
