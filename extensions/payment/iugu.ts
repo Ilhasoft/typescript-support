@@ -3,8 +3,8 @@
 declare const require: any;
 const request = require('request');
 
-let apiToken = '' as string;
-let accountId = '' as string;
+let apiToken = '';
+let accountId = '';
 let urlApi = 'https://api.iugu.com/v1/';
 
 /**
@@ -121,7 +121,7 @@ function deletePaymentMethod(customerId: string, paymentMethodId: string): Parse
  * @param {Array} items: { description, quantity, price_cents }
  * @returns {Object}
  */
-function createInvoice(email: string, customerId: string, dueDate: string, items: Array<{}>): Parse.Promise<any> {
+function createInvoice(email: string, customerId: string, dueDate: string, items: any[]): Parse.Promise<any> {
   return sendToRest({
     api_token: apiToken,
     email: email,
@@ -188,7 +188,7 @@ function createCharge(email: string, items: Array<{}>, tokenId: any = null, meth
  * @returns {Object}
  */
 function createNewPayment(data: any): Parse.Promise<any> {
-  const iugu = initIugu(data.tokenId, data.accountId);
+  // const iugu = initIugu(data.tokenId, data.accountId);
   let promise = new Parse.Promise();
   let dataReturn = {};
   if (data.directPayment === true) {
@@ -206,7 +206,7 @@ function createNewPayment(data: any): Parse.Promise<any> {
   } else {
     if (data.customer.id) {
       getCustomer(data.customer.id).then((customer: any) => {
-        if (data.creditCard.id === undefined) {
+        if (!data.creditCard.id) {
           return paymentWithNewCreditCard(customer, data);
         } else {
           return paymentWithPaymentMethod(customer, data);
@@ -265,6 +265,11 @@ function paymentWithNewCreditCard(customer: any, data: any): Parse.Promise<any> 
   return promise;
 }
 
+/**
+ * Cerates a payment with an existing payment method
+ * @param customer the customer object
+ * @param data 
+ */
 function paymentWithPaymentMethod(customer: any, data: any): Parse.Promise<any> {
   if (!data.creditCard.id) {
     return Parse.Promise.error('PAYMENT METHOD ID REQUIRED');
@@ -320,7 +325,7 @@ function sendToRest(data: Object, restPoint: string) {
     if (err) {
       promise.reject(err);
     } else if (body) {
-      promise.resolve(err);
+      promise.resolve(body);
     }
   });
   return promise;
