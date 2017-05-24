@@ -10,19 +10,24 @@ Parse.Cloud.define("registerCustomer", (request, response) => {
         return;
     }
     let returnValue: any = null;
-    createCustomer(data).then((value) => {
-        if (value["id"]) {
-            returnValue = value;
-            user.set("externalCustomerId", value["id"]);
-            return user.save(null, { useMasterKey: true })
-        } else {
-            response.error(JSON.stringify(value));
-        }
-    }).then((object: Parse.Object) => {
-        response.success(returnValue);
-    }, (reason) => {
-        response.error(reason);
-    })
+    if (user.get("externalCustomerId")) {
+        response.success(true);
+        return;
+    } else {
+        createCustomer(data).then((value) => {
+            if (value["id"]) {
+                returnValue = value;
+                user.set("externalCustomerId", value["id"]);
+                return user.save(null, { useMasterKey: true })
+            } else {
+                response.error(JSON.stringify(value));
+            }
+        }).then((object: Parse.Object) => {
+            response.success(returnValue);
+        }, (reason) => {
+            response.error(reason);
+        })
+    }
 });
 
 Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, response: Parse.Cloud.FunctionResponse) => {
@@ -57,6 +62,8 @@ Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, 
         creditCard.set("lastDigits", lastDigits);
         creditCard.set("user", user);
         creditCard.set("name", data["description"]);
+        const acl = new Parse.ACL(user);
+        creditCard.setACL(acl);
         return creditCard.save();
     }).then((object: Parse.Object) => {
         response.success(object.toJSON());
