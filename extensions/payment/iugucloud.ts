@@ -48,9 +48,12 @@ Parse.Cloud.define("registerCreditCard", (request: Parse.Cloud.FunctionRequest, 
             const customerId = user.get("externalCustomerId") as string;
             return createPaymentMethod(customerId, value["id"], data["description"], true);
         } else {
-            response.error(JSON.stringify(value));
+            return Parse.Promise.error(value);
         }
     }).then((value: any) => {
+        if (!value["id"]) {
+            return Parse.Promise.error(value);
+        }
         let creditCard: Parse.Object = new CreditCard();
         creditCard.set("cardExternalId", value["id"]);
         creditCard.set("cpf", data["cpf"]);
