@@ -683,7 +683,7 @@ declare namespace Parse {
 
         static fromJSON(json: string): Object;
 
-        static saveAll<T extends Object>(list: T[]): Promise<T[]>;
+        static saveAll<T extends Object>(list: T[], options?: ScopeOptions): Promise<T[]>;
 
         static registerSubclass<T extends Object>(className: string, clazz: new (options?: any) => T): void;
 
