@@ -21,7 +21,7 @@ function handleMessageBeforeSave(request: Parse.Cloud.BeforeSaveRequest, respons
 function handleMessageAfterSave(request: Parse.Cloud.AfterSaveRequest, chatKey: string) {
     let message = request.object as Parse.Object
     if (message.isNew2()) {
-        let chat = message.get("chat") as Parse.Object
+        let chat = message.get(chatKey) as Parse.Object
         chat.set("lastMessage", message)
         chat.save();
     }
