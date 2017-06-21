@@ -606,7 +606,7 @@ declare namespace Parse {
 
         longitude: number;
 
-        constructor(arg1?: any, arg2?: any);
+        constructor(latitude?: number, longitude?: number);
 
         current(options?: SuccessFailureOptions): GeoPoint;
 
@@ -711,7 +711,7 @@ declare namespace Parse {
 
         fetch<T extends Object>(options?: ScopeOptions): Promise<T>;
 
-        get(attr: string): string | number | boolean | Object | Array<any> | Date | File | User | Object[];
+        get(attr: string): string | number | boolean | Object | Array<any> | Date | File | User | GeoPoint | Object[];
 
         getACL(): ACL;
 
@@ -733,7 +733,7 @@ declare namespace Parse {
 
         save<T extends Object>(key: string, value: string | number | boolean | Object | Date | File | User | Object[], options?: ScopeOptions): Promise<T>;
 
-        set(key: string, value: string | number | boolean | Object | Array<any> | Date | File | User | Object[], options?: ErrorOption): boolean;
+        set(key: string, value: string | number | boolean | Object | Array<any> | Date | File | User | GeoPoint | Object[], options?: ErrorOption): boolean;
 
         setACL(acl: ACL, options?: SuccessFailureOptions): boolean;
 
