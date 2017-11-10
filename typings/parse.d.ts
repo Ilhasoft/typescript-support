@@ -669,7 +669,7 @@ declare namespace Parse {
 
         static createWithoutData<T extends Object>(id: string): T;
 
-        static destroyAll<T>(list: Object[]): Promise<T>;
+        static destroyAll<T>(list: Object[], options?: ScopeOptions): Promise<T>;
 
         static disableSingleInstance(): void;
 
