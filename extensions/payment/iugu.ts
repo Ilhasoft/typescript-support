@@ -5,6 +5,7 @@ const request = require('request');
 
 let apiToken = '';
 let accountId = '';
+let authToken = '';
 let urlApi = 'https://api.iugu.com/v1/';
 
 /**
@@ -70,7 +71,7 @@ function getCustomerPaymentMethods(customerId: string): Parse.Promise<any> {
  * @param {Object} data: { number, CVV, firstName, lastName, month, year }
  */
 function createToken(data: { [key: string]: any}, method: string = 'credit_card', test: boolean = true): Parse.Promise<any> {
-  return sendToRest({
+  return sendToRestWithAuthentication({
     account_id: accountId,
     method: method,
     test: test,
@@ -82,7 +83,7 @@ function createToken(data: { [key: string]: any}, method: string = 'credit_card'
       month: data["month"],
       year: data["year"],
     }
-  }, 'payment_token');
+  }, 'payment_token', authToken);
 };
 
 /**
@@ -319,6 +320,27 @@ function sendToRest(data: Object, restPoint: string) {
     contentType: 'application/json',
     json: true,
     body: data,
+  };
+  let promise = new Parse.Promise();
+  request.post(options, (err: any, httpResponse: any, body: any) => {
+    if (err) {
+      promise.reject(err);
+    } else if (body) {
+      promise.resolve(body);
+    }
+  });
+  return promise;
+}
+
+function sendToRestWithAuthentication(data: Object, restPoint: string, authToken: string) {
+  const options = {
+    url: `${urlApi}${restPoint}`,
+    contentType: 'application/json',
+    json: true,
+    body: data,
+    headers: {
+      'Authorization': `Basic ${authToken}`,
+    }
   };
   let promise = new Parse.Promise();
   request.post(options, (err: any, httpResponse: any, body: any) => {
