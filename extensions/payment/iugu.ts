@@ -70,7 +70,7 @@ function getCustomerPaymentMethods(customerId: string): Parse.Promise<any> {
  * Create credit card token
  * @param {Object} data: { number, CVV, firstName, lastName, month, year }
  */
-function createToken(data: { [key: string]: any}, method: string = 'credit_card', test: boolean = true): Parse.Promise<any> {
+function createToken(data: { [key: string]: any}, method: string = 'credit_card', test: boolean = false): Parse.Promise<any> {
   return sendToRest({
     account_id: accountId,
     method: method,
