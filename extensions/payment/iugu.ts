@@ -71,7 +71,7 @@ function getCustomerPaymentMethods(customerId: string): Parse.Promise<any> {
  * @param {Object} data: { number, CVV, firstName, lastName, month, year }
  */
 function createToken(data: { [key: string]: any}, method: string = 'credit_card', test: boolean = true): Parse.Promise<any> {
-  return sendToRestWithAuthentication({
+  return sendToRest({
     account_id: accountId,
     method: method,
     test: test,
@@ -83,7 +83,7 @@ function createToken(data: { [key: string]: any}, method: string = 'credit_card'
       month: data["month"],
       year: data["year"],
     }
-  }, 'payment_token', authToken);
+  }, 'payment_token');
 };
 
 /**
@@ -167,7 +167,6 @@ function createChargeCustomer(cpmId: string, customerId: string, invoiceId: stri
  */
 function createCharge(email: string, items: Array<{}>, tokenId: any = null, method: string = 'bank_slip'): Parse.Promise<any> {
   const data: any = {
-    api_token: apiToken,
     email: email,
     items: items,
   };
@@ -180,7 +179,7 @@ function createCharge(email: string, items: Array<{}>, tokenId: any = null, meth
     data.token = tokenId;
   }
 
-  return sendToRest(data, 'charge');
+  return sendToRest(data, `charge?api_token=${apiToken}`);
 };
 
 /**
@@ -320,27 +319,6 @@ function sendToRest(data: Object, restPoint: string) {
     contentType: 'application/json',
     json: true,
     body: data,
-  };
-  let promise = new Parse.Promise();
-  request.post(options, (err: any, httpResponse: any, body: any) => {
-    if (err) {
-      promise.reject(err);
-    } else if (body) {
-      promise.resolve(body);
-    }
-  });
-  return promise;
-}
-
-function sendToRestWithAuthentication(data: Object, restPoint: string, authToken: string) {
-  const options = {
-    url: `${urlApi}${restPoint}`,
-    contentType: 'application/json',
-    json: true,
-    body: data,
-    headers: {
-      'Authorization': `Basic ${authToken}`,
-    }
   };
   let promise = new Parse.Promise();
   request.post(options, (err: any, httpResponse: any, body: any) => {
